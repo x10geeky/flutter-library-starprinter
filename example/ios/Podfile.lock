@@ -1,0 +1,39 @@
+PODS:
+  - Flutter (1.0.0)
+  - SMCloudServices (1.5.1):
+    - StarIO_Extension
+  - star_printer (0.0.1):
+    - Flutter
+    - SMCloudServices
+    - StarIO
+    - StarIO_Extension
+  - StarIO (2.7.0)
+  - StarIO_Extension (1.14.0):
+    - StarIO
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - star_printer (from `.symlinks/plugins/star_printer/ios`)
+
+SPEC REPOS:
+  trunk:
+    - SMCloudServices
+    - StarIO
+    - StarIO_Extension
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  star_printer:
+    :path: ".symlinks/plugins/star_printer/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  SMCloudServices: d31c07b85289d68db7d0ada0b91fb5a1c078e694
+  star_printer: dabc95c1c7d34de587953b947ad0d7839be7a75f
+  StarIO: 2d29cff48971173f40191dc9b3e23e5a6863b9da
+  StarIO_Extension: 99eb938cd82cea249f298fe5a35074e9aaedf6d7
+
+PODFILE CHECKSUM: 0ba44ad07df4ab62269dc769727cf0f12b1e453d
+
+COCOAPODS: 1.9.1
