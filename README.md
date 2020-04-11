@@ -1,2 +1,2 @@
-# -flutter-library-starprinter
+# flutter-library-starprinter
 Star Micronics Printer Library
