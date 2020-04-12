@@ -12,9 +12,7 @@ class StarPrinter {
   }
 
   static Future<String> get getPrinters async {
-    print("1");
     final String version = await _channel.invokeMethod('getPrinters');
-    print("2");
     return version;
   }
 }
