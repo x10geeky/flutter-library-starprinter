@@ -1,6 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:star_printer/star_printer.dart';
 
@@ -61,13 +63,22 @@ class _MyAppState extends State<MyApp> {
                 onPressed: onPressedFindPrinter,
               ),
               RaisedButton(
-                child: Text('Print...'),
-                onPressed: onPressedPrint,
+                child: Text('Print with Text'),
+                onPressed: onPressedPrintWithText,
+              ),
+              RaisedButton(
+                child: Text('Print with Image'),
+                onPressed: onPressedPrintWithImage,
+              ),
+              RaisedButton(
+                child: Text('Open Cash Drawer'),
+                onPressed: onPressedOpenCashDrawer,
               ),
               RaisedButton(
                 child: Text('Clean'),
                 onPressed: onPressedClean,
-              )
+              ),
+
             ],
           ),
         ),
@@ -87,8 +98,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void onPressedPrint() async {
+  void onPressedPrintWithText() async {
+    var isSuccess = await StarPrinter.printerWithText();
+    print("---PrintWithText Result $isSuccess ----");
+  }
 
+  void onPressedPrintWithImage() async {
+    ByteData bytes = await rootBundle.load('assets/images/invoice.png');
+    var buffer = bytes.buffer;
+    var img = base64.encode(Uint8List.view(buffer));
+    var isSuccess = await StarPrinter.printerWithImage(base64: img);
+    print("---PrintWithImage Result $isSuccess ----");
+  }
+
+  void onPressedOpenCashDrawer() async {
+    var isSuccess = await StarPrinter.openCashDrawer();
+    print("---OpenCashDrawer Result $isSuccess ----");
   }
 
   void onPressedClean() {

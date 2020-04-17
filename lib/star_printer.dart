@@ -12,7 +12,23 @@ class StarPrinter {
   }
 
   static Future<String> get getPrinters async {
-    final String version = await _channel.invokeMethod('getPrinters');
-    return version;
+    final String printers = await _channel.invokeMethod('getPrinters');
+    return printers;
   }
+
+  static Future<bool> printerWithText() async {
+    final bool isSuccess = await _channel.invokeMethod('printerWithText');
+    return isSuccess;
+  }
+
+  static Future<bool> printerWithImage({String base64}) async {
+    final bool isSuccess = await _channel.invokeMethod('printerWithImage', <String, Object>{'base64': base64, 'drawer': false});
+    return isSuccess;
+  }
+
+  static Future<bool> openCashDrawer() async {
+    final bool isSuccess = await _channel.invokeMethod('openCashDrawer');
+    return isSuccess;
+  }
+
 }
