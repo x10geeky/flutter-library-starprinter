@@ -7,11 +7,10 @@ class StarPrinter {
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
-    // final String version = await _channel.invokeMethod('getPlatformVersion', <String, Object>{'url': 'www.apple.com'});
     return version;
   }
 
-  static Future<String> get getPrinters async {
+  static Future<String> getPrinters() async {
     final String printers = await _channel.invokeMethod('getPrinters');
     return printers;
   }

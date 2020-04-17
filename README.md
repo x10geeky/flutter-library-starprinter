@@ -13,17 +13,17 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
 
-## Clean
+# Clean
 
-# Clean Flutter
+## Clean Flutter
 - flutter clean
 
-# Clean Pod
+## Clean Pod
 sudo gem install cocoapods-clean
 pod deintegrate
 pod cache clean --all
 pod install
 
-# Git Ignore
+## Git Ignore
 git rm -r --cached .
 git add .

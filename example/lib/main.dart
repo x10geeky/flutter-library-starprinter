@@ -1,8 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:star_printer/star_printer.dart';
 
@@ -14,6 +14,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  String _platformVersion = 'Unknown';
   String _printers = 'Unknown';
 
   @override
@@ -24,7 +26,6 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    /*
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
@@ -32,18 +33,15 @@ class _MyAppState extends State<MyApp> {
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
-     */
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    /*
     setState(() {
       _platformVersion = platformVersion;
     });
-     */
   }
 
   @override
@@ -51,7 +49,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Star Micro Printer'),
         ),
         body: Center(
           child: Column(
@@ -78,7 +76,6 @@ class _MyAppState extends State<MyApp> {
                 child: Text('Clean'),
                 onPressed: onPressedClean,
               ),
-
             ],
           ),
         ),
@@ -89,7 +86,7 @@ class _MyAppState extends State<MyApp> {
   void onPressedFindPrinter() async {
     var printers = "";
     try {
-      printers = await StarPrinter.getPrinters;
+      printers = await StarPrinter.getPrinters();
     } on PlatformException {
       printers = 'Failed to get platform version.';
     }
@@ -100,7 +97,6 @@ class _MyAppState extends State<MyApp> {
 
   void onPressedPrintWithText() async {
     var isSuccess = await StarPrinter.printerWithText();
-    print("---PrintWithText Result $isSuccess ----");
   }
 
   void onPressedPrintWithImage() async {
@@ -108,12 +104,10 @@ class _MyAppState extends State<MyApp> {
     var buffer = bytes.buffer;
     var img = base64.encode(Uint8List.view(buffer));
     var isSuccess = await StarPrinter.printerWithImage(base64: img);
-    print("---PrintWithImage Result $isSuccess ----");
   }
 
   void onPressedOpenCashDrawer() async {
     var isSuccess = await StarPrinter.openCashDrawer();
-    print("---OpenCashDrawer Result $isSuccess ----");
   }
 
   void onPressedClean() {
