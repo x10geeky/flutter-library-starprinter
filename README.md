@@ -19,11 +19,11 @@ samples, guidance on mobile development, and a full API reference.
 - flutter clean
 
 ## Clean Pod
-- sudo gem install cocoapods-clean
-- pod deintegrate
-- pod cache clean --all
-- pod install
+sudo gem install cocoapods-clean
+pod deintegrate
+pod cache clean --all
+pod install
 
 ## Git Ignore
-- git rm -r --cached .
-- git add .
+git rm -r --cached .
+git add .

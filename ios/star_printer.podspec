@@ -15,6 +15,7 @@ This is library star micro printer
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
+  s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'StarIO'
   s.dependency 'StarIO_Extension'
