@@ -39,15 +39,18 @@
         NSLog(@"Printer With Text");
         return;
     } else if ([@"printerWithImage" isEqualToString:call.method]) {
-        NSString *base64 = call.arguments[@"base64"];
+        NSString *base64Image = call.arguments[@"base64"];
         NSNumber *drawer = call.arguments[@"drawer"];
+        
+        NSDictionary *printerDict = call.arguments[@"printer"];
+        //NSLog(@"%@", printer);
+        
         self.isCashDrawerOpenActive = drawer.boolValue;
         
         //NSLog(drawer.boolValue ? @"Yes" : @"No");
         //NSLog(@"%@",base64);
-        //result(@(YES));
         
-        result([self printerWithImage:base64 drawer:self.isCashDrawerOpenActive]);
+        result([self printWithImage:base64Image printerInfo:printerDict drawer:self.isCashDrawerOpenActive]);
         return;
     } else if ([@"openCashDrawer" isEqualToString:call.method]) {
         [self openCashDrawer];
@@ -160,20 +163,25 @@
     return printers;
 }
 
-- (NSNumber *)printerWithImage:(NSString *) base64String drawer:(BOOL) cashdrawer {
+- (NSNumber *)printWithImage:(NSString *) base64String printerInfo:(NSDictionary *) printerInfo drawer:(BOOL) cashdrawer {
     NSArray *portInfoArray;
-    
+    /*
     NSError *error = nil;
     
     portInfoArray = [SMPort searchPrinter:@"ALL:" :&error];
     
     NSLog(@"Printer %@",portInfoArray);
-    
+     
     for (PortInfo *portInfo in portInfoArray) {
         self.portName   = portInfo.portName;
         self.modelName  = portInfo.modelName;
         self.macAddress = portInfo.macAddress;
     }
+    */
+    
+    self.portName   = [printerInfo objectForKey:@"portName"];
+    self.modelName  = [printerInfo objectForKey:@"modelName"];
+    self.macAddress = [printerInfo objectForKey:@"macAddress"];
     
     NSLog(@"Name: %@",self.portName);
     NSLog(@"Model Name: %@",self.modelName);

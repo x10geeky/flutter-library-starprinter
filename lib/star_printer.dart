@@ -15,12 +15,12 @@ class StarPrinter {
     return printers;
   }
 
-  static Future<bool> printerWithText({String printer}) async {
+  static Future<bool> printerWithText({Map printer}) async {
     final bool isSuccess = await _channel.invokeMethod('printerWithText', <String, Object>{'printer': printer});
     return isSuccess;
   }
 
-  static Future<bool> printerWithImage({String printer, String base64}) async {
+  static Future<bool> printerWithImage({Map printer, String base64}) async {
     final bool isSuccess = await _channel.invokeMethod('printerWithImage', <String, Object>{'printer': printer, 'base64': base64, 'drawer': false});
     return isSuccess;
   }

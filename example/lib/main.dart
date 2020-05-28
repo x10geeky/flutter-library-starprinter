@@ -86,13 +86,15 @@ class _MyAppState extends State<MyApp> {
     List result;
     List<PrinterModel> printers = List<PrinterModel>();
     try {
+      /*
       result = [
         {"modelName": "TSP654 (STR_T-001)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"},
         {"modelName": "TSP654 (STR_T-002)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"}
       ];
-      // result = await StarPrinter.getPrinters();
+       */
+      result = await StarPrinter.getPrinters();
       result.forEach((item) {
-        printers.add(PrinterModel.fromJson(item));
+        printers.add(PrinterModel(modelName: item["modelName"],macAddress: item["macAddress"],portName: item["portName"]));
       });
 
       onOpenDialogPrinter(printers);
@@ -140,7 +142,7 @@ class _MyAppState extends State<MyApp> {
 
   void onPressedPrintWithText() async {
     if (printer != null) {
-      var isSuccess = await StarPrinter.printerWithText(printer: json.encode(printer.toJson()));
+      var isSuccess = await StarPrinter.printerWithText(printer: printer.toJson());
     }
   }
 
@@ -149,7 +151,7 @@ class _MyAppState extends State<MyApp> {
       ByteData bytes = await rootBundle.load('assets/images/invoice.png');
       var buffer = bytes.buffer;
       var img = base64.encode(Uint8List.view(buffer));
-      var isSuccess = await StarPrinter.printerWithImage(printer: json.encode(printer.toJson()), base64: img);
+      var isSuccess = await StarPrinter.printerWithImage(printer: printer.toJson(), base64: img);
     }
   }
 
