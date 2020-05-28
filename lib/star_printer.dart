@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 class StarPrinter {
   static const MethodChannel _channel = const MethodChannel('star_printer');
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
+  static Future<List> get platformVersion async {
+    final List version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
 

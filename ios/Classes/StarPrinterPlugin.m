@@ -30,7 +30,7 @@
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
-        NSLog(@"Hello World");
+        result([self testData]);
         return;
     } else if ([@"getPrinters" isEqualToString:call.method]) {
         result([self findPrinter]);
@@ -89,6 +89,27 @@
     [builder endDocument];
     
     return [builder.commands copy];
+}
+- (NSArray *)testData{
+    NSArray *arrTemp = @[
+                             @{@"Appearance" : @"Copper",
+                               @"Bitterness" : @(50),
+                               @"Style" : @"India Pale Ale (IPA)"},
+
+                             @{@"Appearance" : @"Jet Black",
+                               @"Bitterness" : @(35),
+                               @"Style" : @"Stout"},
+
+                             @{@"Appearance" : @"Copper",
+                               @"Bitterness" : @(25),
+                               @"Style" : @"English Brown Ale"},
+
+                             @{@"Appearance" : @"Deep Gold",
+                               @"Bitterness" : @(25),
+                               @"Style" : @"Bock"}
+                             ];
+
+    return arrTemp;
 }
 
 - (NSString *)findPrinter {
