@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:star_printer/star_printer.dart';
+import 'package:star_printer_example/printer_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +16,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _printers = 'Unknown';
+  final navigatorKey = GlobalKey<NavigatorState>();
+  PrinterModel printer;
 
   @override
   void initState() {
@@ -27,7 +30,7 @@ class _MyAppState extends State<MyApp> {
     try {
       list = await StarPrinter.platformVersion;
       print(list);
-      list.forEach((item){
+      list.forEach((item) {
         item.forEach((k, v) => print("$k: $v"));
       });
     } on PlatformException {
@@ -38,6 +41,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Star Micro Printer'),
@@ -46,7 +50,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(_printers),
+              Text(printer == null ? 'Unknow' : printer.modelName),
               RaisedButton(
                 child: Text('Find Printer'),
                 onPressed: onPressedFindPrinter,
@@ -75,31 +79,76 @@ class _MyAppState extends State<MyApp> {
   }
 
   void onPressedFindPrinter() async {
-    List printers;
+    List result;
+    List<PrinterModel> printers = List<PrinterModel>();
     try {
-      printers = await StarPrinter.getPrinters();
-
-      print(printers);
-      printers.forEach((item){
-        item.forEach((k, v) => print("$k: $v"));
+      /*
+      result = [
+        {"modelName": "TSP654 (STR_T-001)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"},
+        {"modelName": "TSP654 (STR_T-002)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"}
+      ];
+       */
+      result = await StarPrinter.getPrinters();
+      result.forEach((item) {
+        printers.add(PrinterModel.fromJson(item));
       });
+
+      onOpenDialogPrinter(printers);
     } on PlatformException {
       //printers = 'Failed to get platform version.';
     }
+  }
+
+  void onOpenDialogPrinter(List<PrinterModel> printers) {
+    final context = navigatorKey.currentState.overlay.context;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text("Plase Choose Printer"),
+        content: Column(
+          children: printers
+              .asMap()
+              .map(
+                (int i, PrinterModel value) {
+                  return MapEntry(
+                    i,
+                    RaisedButton(
+                      child: Text(value.modelName, style: TextStyle(fontSize: 20)),
+                      onPressed: () => onSelectedPrinter(value),
+                    ),
+                  );
+                },
+              )
+              .values
+              .toList(),
+        ),
+      ),
+    );
+  }
+
+  void onSelectedPrinter(PrinterModel value) {
+    final context = navigatorKey.currentState.overlay.context;
+    Navigator.maybePop(context);
+    print(value.modelName);
+
     setState(() {
-      //_printers = printers;
+      printer = value;
     });
   }
 
   void onPressedPrintWithText() async {
-    var isSuccess = await StarPrinter.printerWithText();
+    if (printer != null) {
+      var isSuccess = await StarPrinter.printerWithText(printer: json.encode(printer.toJson()));
+    }
   }
 
   void onPressedPrintWithImage() async {
-    ByteData bytes = await rootBundle.load('assets/images/invoice.png');
-    var buffer = bytes.buffer;
-    var img = base64.encode(Uint8List.view(buffer));
-    var isSuccess = await StarPrinter.printerWithImage(base64: img);
+    if (printer != null) {
+      ByteData bytes = await rootBundle.load('assets/images/invoice.png');
+      var buffer = bytes.buffer;
+      var img = base64.encode(Uint8List.view(buffer));
+      var isSuccess = await StarPrinter.printerWithImage(printer: json.encode(printer.toJson()), base64: img);
+    }
   }
 
   void onPressedOpenCashDrawer() async {
@@ -108,8 +157,7 @@ class _MyAppState extends State<MyApp> {
 
   void onPressedClean() {
     setState(() {
-      _printers = "";
+      printer = null;
     });
   }
-
 }
