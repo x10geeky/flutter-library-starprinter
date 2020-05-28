@@ -16,7 +16,7 @@ class StarPrinter {
   }
 
   static Future<bool> printerWithText({String printer}) async {
-    final bool isSuccess = await _channel.invokeMethod('printerWithText');
+    final bool isSuccess = await _channel.invokeMethod('printerWithText', <String, Object>{'printer': printer});
     return isSuccess;
   }
 

@@ -55,10 +55,12 @@ class _MyAppState extends State<MyApp> {
                 child: Text('Find Printer'),
                 onPressed: onPressedFindPrinter,
               ),
+              /*
               RaisedButton(
                 child: Text('Print with Text'),
                 onPressed: onPressedPrintWithText,
               ),
+               */
               RaisedButton(
                 child: Text('Print with Image'),
                 onPressed: onPressedPrintWithImage,
@@ -67,10 +69,12 @@ class _MyAppState extends State<MyApp> {
                 child: Text('Open Cash Drawer'),
                 onPressed: onPressedOpenCashDrawer,
               ),
+              /*
               RaisedButton(
                 child: Text('Clean'),
                 onPressed: onPressedClean,
               ),
+               */
             ],
           ),
         ),
@@ -82,13 +86,11 @@ class _MyAppState extends State<MyApp> {
     List result;
     List<PrinterModel> printers = List<PrinterModel>();
     try {
-      /*
       result = [
         {"modelName": "TSP654 (STR_T-001)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"},
         {"modelName": "TSP654 (STR_T-002)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"}
       ];
-       */
-      result = await StarPrinter.getPrinters();
+      // result = await StarPrinter.getPrinters();
       result.forEach((item) {
         printers.add(PrinterModel.fromJson(item));
       });
