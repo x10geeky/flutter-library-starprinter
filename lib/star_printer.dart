@@ -10,8 +10,8 @@ class StarPrinter {
     return version;
   }
 
-  static Future<String> getPrinters() async {
-    final String printers = await _channel.invokeMethod('getPrinters');
+  static Future<List> getPrinters() async {
+    final List printers = await _channel.invokeMethod('getPrinters');
     return printers;
   }
 

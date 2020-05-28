@@ -75,14 +75,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   void onPressedFindPrinter() async {
-    var printers = "";
+    List printers;
     try {
       printers = await StarPrinter.getPrinters();
+
+      print(printers);
+      printers.forEach((item){
+        item.forEach((k, v) => print("$k: $v"));
+      });
     } on PlatformException {
-      printers = 'Failed to get platform version.';
+      //printers = 'Failed to get platform version.';
     }
     setState(() {
-      _printers = printers;
+      //_printers = printers;
     });
   }
 

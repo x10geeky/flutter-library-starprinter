@@ -112,7 +112,7 @@
     return arrTemp;
 }
 
-- (NSString *)findPrinter {
+- (NSArray *)findPrinter {
     NSArray *portInfoArray;
     
     NSError *error = nil;
@@ -121,7 +121,16 @@
     
     NSLog(@"Printer %@",portInfoArray);
     
+    NSMutableArray *printers = [[NSMutableArray alloc] init];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
     for (PortInfo *portInfo in portInfoArray) {
+        [dict setObject:portInfo.portName forKey:@"portName"];
+        [dict setObject:portInfo.modelName forKey:@"modelName"];
+        [dict setObject:portInfo.macAddress forKey:@"macAddress"];
+        
+        [printers addObject:dict];
+        
         self.portName   = portInfo.portName;
         self.modelName  = portInfo.modelName;
         self.macAddress = portInfo.macAddress;
@@ -147,8 +156,8 @@
     NSLog(@"Emulation: %ld",(long)self.emulation);
     
     [self getDeviceStatus];
-    
-    return self.portName;
+
+    return printers;
 }
 
 - (NSNumber *)printerWithImage:(NSString *) base64String drawer:(BOOL) cashdrawer {
