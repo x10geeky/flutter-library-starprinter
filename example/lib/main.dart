@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:star_printer/star_printer.dart';
-import 'package:star_printer_example/printer_model.dart';
+import 'package:star_printer/printer_model.dart';
 
 void main() => runApp(MyApp());
 
