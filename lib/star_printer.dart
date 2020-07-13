@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 
+import 'printer_model.dart';
+
 class StarPrinter {
   static const MethodChannel _channel = const MethodChannel('star_printer');
 
@@ -12,8 +14,14 @@ class StarPrinter {
     return await Future.delayed(const Duration(seconds: 10));
   }
 
-  static Future<List> get printers async {
-    return _channel.invokeMethod('getPrinters');
+  static Future<List<PrinterModel>> get printers async {
+    var elements = await _channel.invokeMethod('getPrinters');
+    var result = List<PrinterModel>();
+    elements.forEach((item) {
+      print(item);
+      result.add(PrinterModel(modelName: item["modelName"],macAddress: item["macAddress"],portName: item["portName"]));
+    });
+    return result;
   }
 
   static Future<bool> printerWithText({Map printer}) async {
