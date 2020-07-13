@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
         {"modelName": "TSP654 (STR_T-002)", "macAddress": "00:11:62:06:8b:a0", "portName": "TCP:192.168.1.111"}
       ];
        */
-      result = await StarPrinter.getPrinters();
+      result = await StarPrinter.printers;
       result.forEach((item) {
         printers.add(PrinterModel(modelName: item["modelName"],macAddress: item["macAddress"],portName: item["portName"]));
       });
